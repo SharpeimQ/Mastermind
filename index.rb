@@ -7,18 +7,17 @@ class Mastermind
   def initialize(array)
     @array = array
     @code = @array.sample(4)
-    @win = 10
+    @win_checker = 10
   end
 
   def game
     intro_dialogue
     for i in 0..3
       user_input
-      @win == 30 ? break : nil
+      @win_checker == 30 ? break : nil
     end
-    if i == 3
-      puts 'You Suck!'
-    end
+    result = i == 3 ? 'You Suck!' : ''
+    puts result
   end
 
   def user_input
@@ -31,8 +30,7 @@ class Mastermind
   def intro_dialogue
     puts 'Welcome to Mastermind!'
     puts 'The CCP has generated a code consisting of 4 colors'
-    puts 'Enter a 4 letter combination based from [R G B Y O P]'
-    puts @code.inspect
+    puts 'Enter a 4 letter combination based from [R G B Y O P], you have 4 guesses'
   end
 
   # too lazy to change the parameters for reusability
@@ -48,7 +46,7 @@ class Mastermind
   def second_check(choice_arr)
     if choice_arr == @code
       puts 'You win! Congratulations on Deciphering the Code!'
-      @win = 30
+      @win_checker = 30
       return
     end
     third_check(choice_arr)
