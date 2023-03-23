@@ -11,26 +11,32 @@ class Mastermind
   end
 
   def game
-    intro_dialogue
     select_side
-    if choice == 'Y'
-      human
-    elsif choice == 'N'
-      computer
-    end
+
   end
 
   def select_side
     puts 'Enter Y (Face the CCP) or N (Join the CCP)'
     valid_response = %w[Y N]
-    choice = gets.chomp
-    until valid_response.include?(choice.upcase)
+    chosen = gets.chomp
+    until valid_response.include?(chosen.upcase)
       puts 'Enter Y or N NOW!!!'
-      choice = gets.chomp
+      chosen = gets.chomp
+    end
+    game_path(chosen)
+  end
+
+  def game_path(chosen)
+    if chosen.upcase == 'Y'
+      intro_dialogue_human
+      human
+    elsif chosen.upcase == 'N'
+      intro_dialogue_ccp
+      computer
     end
   end
 
-  def human 
+  def human
     for i in 0..3
       user_input
       @win_checker == 30 ? break : nil
@@ -46,9 +52,9 @@ class Mastermind
     primary_check(choice_arr, valid_options, choice)
   end
 
-  def intro_dialogue
+  def intro_dialogue_human
     puts 'Welcome to Mastermind!'
-    puts 'The CCP has generated a code consisting of 4 colors'
+    puts 'The CCP has planted an explosive! Defuse it with a code consisting of 4 colors'
     puts 'Enter a 4 letter combination based from [R G B Y O P], you have 4 guesses'
     puts @code.inspect
   end
@@ -83,6 +89,33 @@ class Mastermind
       end
     end
     puts "Your Guessed #{choice_arr}. Try Again! [R G B Y O P]"
+  end
+
+  # computer portion
+  def intro_dialogue_ccp
+    puts 'Welcome to Mastermind!'
+    puts 'Your first assignment as a CCP Agent is to generate a security code for our bomb'
+    puts 'Enter a 4 letter combination based from [R G B Y O P], choose wisely!'
+  end
+
+  def computer
+    puts 'hi'
+  end
+
+  def user_input_ccp
+    security_code = gets.chomp
+    security_arr = choice.upcase.split('')
+    valid_security_options = @array
+    security_check(security_arr, valid_security_options, security_code)
+  end
+
+  def security_check(security_arr, valid_security_options, security_code)
+    until valid_security_options.include?(security_arr[0]) && valid_security_options.include?(security_arr[1]) &&
+          valid_security_options.include?(security_arr[2]) && valid_security_options.include?(security_arr[3]) &&
+          security_code.length == 4
+      puts 'Enter a 4 letter password based from [R G B Y O P]! -Social Credit!'
+      security_arr = (security_code = gets.chomp).upcase.split('')
+    end
   end
 end
 
