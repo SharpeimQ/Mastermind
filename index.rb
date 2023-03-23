@@ -43,12 +43,17 @@ class Mastermind
       puts 'You win! Congratulations on Deciphering the Code!'
       return
     end
+    third_check(choice_arr)
+  end
 
+  def third_check(choice_arr)
     @code.each_with_index do |color, i|
       if choice_arr[i] == color
         puts "Your #{i + 1}st Color and Spot was Correct!"
       elsif @code.include?(choice_arr[i])
         puts "Color #{i + 1} is correct, but in the wrong spot!"
+      else
+        puts "Color #{i + 1} is not in the code"
       end
     end
   end
