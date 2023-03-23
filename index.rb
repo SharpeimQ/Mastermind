@@ -16,20 +16,22 @@ class Mastermind
 
   def user_input
     choice = gets.chomp
+    choice_arr = choice.upcase.split('')
     valid_options = @array
-    unless valid_options.include?(choice.upcase)
-      puts 'choose a viable option inside the array [R G B Y O P]'
-      choice = gets.chomp
-      puts choice
+    until valid_options.include?(choice_arr[0]) && valid_options.include?(choice_arr[1]) &&
+          valid_options.include?(choice_arr[2]) && valid_options.include?(choice_arr[3]) && choice.length == 4
+      puts 'Enter a 4 letter combination based from [R G B Y O P]'
+      choice_arr = (choice = gets.chomp).upcase.split('')
     end
   end
 
   def intro_dialogue
     puts 'Welcome to Mastermind'
     puts 'the computer has generated a code consisting of 4 colors'
-    puts 'You have 6 choices, choose an element in [R G B Y O P]'
-    puts @code
+    puts 'Enter a 4 letter combination based from [R G B Y O P]'
+    puts @code.inspect
   end
+
 end
 
 player = Mastermind.new(colors)
