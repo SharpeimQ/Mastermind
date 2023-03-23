@@ -6,13 +6,11 @@ colors = %w[R G B Y O P]
 class Mastermind
   def initialize(array)
     @array = array
+    @code = @array.sample(4)
   end
 
   def game
-    puts 'Welcome to Mastermind'
-    puts 'the computer has generated a code consisting of 4 colors'
-    puts 'You have 6 choices, choose an element in [R G B Y O P]'
-    code = @array.sample(4)
+    intro_dialogue
     user_input
   end
 
@@ -24,6 +22,13 @@ class Mastermind
       choice = gets.chomp
       puts choice
     end
+  end
+
+  def intro_dialogue
+    puts 'Welcome to Mastermind'
+    puts 'the computer has generated a code consisting of 4 colors'
+    puts 'You have 6 choices, choose an element in [R G B Y O P]'
+    puts @code
   end
 end
 
