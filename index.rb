@@ -12,6 +12,25 @@ class Mastermind
 
   def game
     intro_dialogue
+    select_side
+    if choice == 'Y'
+      human
+    elsif choice == 'N'
+      computer
+    end
+  end
+
+  def select_side
+    puts 'Enter Y (Face the CCP) or N (Join the CCP)'
+    valid_response = %w[Y N]
+    choice = gets.chomp
+    until valid_response.include?(choice.upcase)
+      puts 'Enter Y or N NOW!!!'
+      choice = gets.chomp
+    end
+  end
+
+  def human 
     for i in 0..3
       user_input
       @win_checker == 30 ? break : nil
@@ -31,6 +50,7 @@ class Mastermind
     puts 'Welcome to Mastermind!'
     puts 'The CCP has generated a code consisting of 4 colors'
     puts 'Enter a 4 letter combination based from [R G B Y O P], you have 4 guesses'
+    puts @code.inspect
   end
 
   # too lazy to change the parameters for reusability
@@ -45,7 +65,7 @@ class Mastermind
 
   def second_check(choice_arr)
     if choice_arr == @code
-      puts 'You win! Congratulations on Deciphering the Code!'
+      puts 'You stopped the CCP! Congratulations on Deciphering the Code!'
       @win_checker = 30
       return
     end
