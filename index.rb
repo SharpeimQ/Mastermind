@@ -12,7 +12,6 @@ class Mastermind
 
   def game
     select_side
-
   end
 
   def select_side
@@ -99,16 +98,17 @@ class Mastermind
   end
 
   def computer
-    puts 'hi'
+    user_input_ccp
   end
 
   def user_input_ccp
     security_code = gets.chomp
-    security_arr = choice.upcase.split('')
+    security_arr = security_code.upcase.split('')
     valid_security_options = @array
     security_check(security_arr, valid_security_options, security_code)
   end
 
+  # Can further refactor
   def security_check(security_arr, valid_security_options, security_code)
     until valid_security_options.include?(security_arr[0]) && valid_security_options.include?(security_arr[1]) &&
           valid_security_options.include?(security_arr[2]) && valid_security_options.include?(security_arr[3]) &&
@@ -116,7 +116,35 @@ class Mastermind
       puts 'Enter a 4 letter password based from [R G B Y O P]! -Social Credit!'
       security_arr = (security_code = gets.chomp).upcase.split('')
     end
+    computer_algorithm(security_arr)
+  end
+
+  def computer_algorithm(security_arr)
+    remaining_pool = @array
+    computer_solution = %w[0 0 0 0]
+    computer_choice = remaining_pool.sample(4)
+    computer_sort(computer_choice, computer_solution, remaining_pool, security_arr)
+  end
+
+  def computer_sort(computer_choice, computer_solution, remaining_pool, security_arr)
+    security_arr.each_with_index do |secure, z|
+      if computer_choice[z] == secure
+        computer_solution[z] = computer_choice[z]
+        remaining_pool.delete(computer_choice[z])
+      elsif security_arr.include?(computer_choice[z])
+        computer_solution[z] = computer_choice[z]
+      else
+        remaining_pool.delete(computer_choice[z])
+      end
+    end
+    puts remaining_pool.inspect
+    puts computer_solution.inspect
   end
 end
 
 Mastermind.new(colors).game
+
+# elsif security_arr.exclude?(computer_choice[z])
+#   remaining_pool.delete(computer_choice[z])
+# else
+#   computer_solution = computer[z]
