@@ -23,6 +23,7 @@ class Mastermind
       puts 'Enter a 4 letter combination based from [R G B Y O P]'
       choice_arr = (choice = gets.chomp).upcase.split('')
     end
+    second_check(choice_arr)
   end
 
   def intro_dialogue
@@ -32,6 +33,9 @@ class Mastermind
     puts @code.inspect
   end
 
+  def second_check(array)
+    return puts 'YOU WIN! Congratulations on Deciphering the Code!' if array == @code
+  end
 end
 
 player = Mastermind.new(colors)
