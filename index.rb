@@ -18,11 +18,7 @@ class Mastermind
     choice = gets.chomp
     choice_arr = choice.upcase.split('')
     valid_options = @array
-    until valid_options.include?(choice_arr[0]) && valid_options.include?(choice_arr[1]) &&
-          valid_options.include?(choice_arr[2]) && valid_options.include?(choice_arr[3]) && choice.length == 4
-      puts 'Enter a 4 letter combination based from [R G B Y O P]'
-      choice_arr = (choice = gets.chomp).upcase.split('')
-    end
+    primary_check(choice_arr, valid_options, choice)
     second_check(choice_arr)
   end
 
@@ -33,10 +29,17 @@ class Mastermind
     puts @code.inspect
   end
 
+  def primary_check(choice_arr, valid_options, choice)
+    until valid_options.include?(choice_arr[0]) && valid_options.include?(choice_arr[1]) &&
+          valid_options.include?(choice_arr[2]) && valid_options.include?(choice_arr[3]) && choice.length == 4
+      puts 'Enter a 4 letter combination based from [R G B Y O P]'
+      choice_arr = (choice = gets.chomp).upcase.split('')
+    end
+  end
+
   def second_check(array)
     return puts 'YOU WIN! Congratulations on Deciphering the Code!' if array == @code
   end
 end
 
-player = Mastermind.new(colors)
-player.game
+Mastermind.new(colors).game
