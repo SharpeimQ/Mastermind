@@ -36,12 +36,13 @@ class Mastermind
   end
 
   def human
-    for i in 0..3
+    for i in 0..3 do
       user_input
       @win_checker == 30 ? break : nil
     end
-    result = i == 3 ? 'You Suck!' : ''
-    puts result
+    if i == 3 && @win_checker != 30
+      puts 'YOU SUCK!'
+    end
   end
 
   def user_input
@@ -122,8 +123,22 @@ class Mastermind
   def computer_algorithm(security_arr)
     remaining_pool = @array
     computer_solution = %w[0 0 0 0]
-    computer_choice = remaining_pool.sample(4)
+    for u in 0..4 do
+      computer_choice = remaining_pool.sample(4)
+      computer_win(computer_choice, computer_solution, remaining_pool, security_arr)
+      @win_checker == 50 ? break : nil
+    end
+    if u == 4 && @win_checker != 50
+      puts 'Congratulations Comrade! You Bested the AI!'
+    end
+  end
+
+  def computer_win(computer_choice, computer_solution, remaining_pool, security_arr)
     computer_sort(computer_choice, computer_solution, remaining_pool, security_arr)
+    if computer_solution == security_arr
+      puts 'Your Have Failed us! You are Fired!'
+      @win_checker = 50
+    end
   end
 
   def computer_sort(computer_choice, computer_solution, remaining_pool, security_arr)
@@ -131,20 +146,11 @@ class Mastermind
       if computer_choice[z] == secure
         computer_solution[z] = computer_choice[z]
         remaining_pool.delete(computer_choice[z])
-      elsif security_arr.include?(computer_choice[z])
-        computer_solution[z] = computer_choice[z]
-      else
-        remaining_pool.delete(computer_choice[z])
       end
+      remaining_pool = remaining_pool.select { |color| security_arr.include?(color) }
     end
-    puts remaining_pool.inspect
     puts computer_solution.inspect
   end
 end
 
 Mastermind.new(colors).game
-
-# elsif security_arr.exclude?(computer_choice[z])
-#   remaining_pool.delete(computer_choice[z])
-# else
-#   computer_solution = computer[z]
